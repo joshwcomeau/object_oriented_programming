@@ -10,7 +10,15 @@
 # Call the teach method on your instructor instance and call the learn method on your student. Next, call the teach method on your student instance. 
 # What happens? Why doesn't that work? Leave a comment in your program explaining why.
 
-class Student; end
+class Student
+  def learn
+    puts "I get it!"
+  end
+end
 
 
-class Instructor; end
+class Instructor
+  def teach
+    puts "Everything in Ruby is an Object"
+  end
+end
