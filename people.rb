@@ -9,16 +9,40 @@
 # Create an instance of Student whose name is "Cristina" and call her greeting.
 # Call the teach method on your instructor instance and call the learn method on your student. Next, call the teach method on your student instance. 
 # What happens? Why doesn't that work? Leave a comment in your program explaining why.
+class Person
+  def initialize(name)
+    @name = name
+  end
 
-class Student
+  def greeting
+    puts "Hi, my name is #{@name}"
+  end
+end
+
+class Student < Person
   def learn
     puts "I get it!"
   end
 end
 
 
-class Instructor
+class Instructor < Person
   def teach
     puts "Everything in Ruby is an Object"
   end
 end
+
+
+Chris = Instructor.new("Chris")
+Christina = Student.new("Christina")
+
+Chris.greeting
+Chris.teach
+
+Christina.greeting
+Christina.learn
+
+Christina.teach
+# => raises an 'undefined method' error because .teach is a method for the Instructor class, and we're trying to call it on a Student instance.
+
+
