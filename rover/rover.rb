@@ -1,19 +1,8 @@
-=begin
-Test Input:
-5 5
-1 2 N
-LMLMLMLMM
-3 3 E
-MMRMMRMRRM
- 
-Expected Output:
-1 3 N
-5 1 E
-=end
+# MARS ROVER #
 
 class Rover
-  @@possible_dirs = ["N","E","S","W"]
-  @@movestep = { N: [ 0, 1], 
+  POSSIBLE_DIRS = ["N","E","S","W"]
+  MOVE_STEPS = { N: [ 0, 1], 
                  E: [ 1, 0], 
                  S: [ 0,-1], 
                  W: [-1, 0]
@@ -23,7 +12,7 @@ class Rover
   def initialize(x, y, direction, path, max_x, max_y)
     @x, @y = x, y
     @dir = direction
-    @path = path.split("")  # Turn our path ("LMLR") into an array (['L', 'M', 'L', 'R'])
+    @path = path
     @max_x, @max_y = max_x, max_y
 
     @@rover_count += 1
@@ -31,19 +20,19 @@ class Rover
     rover_mover
   end
 
-  def turn(turndirection) # Updates our @dir variable to reflect our new turndirection.
-    current_index = @@possible_dirs.index(@dir)
+  def turn(turndirection) # Updates our @dir variable to reflect our new turndirection. N, L
+    current_index = POSSIBLE_DIRS.index(@dir) = 0
 
     if turndirection == "R"
-      @dir = @@possible_dirs[(current_index + 1) % 4] # The '% 4' is to ensure we stay within the 0-3 range of possible indices.
+      @dir = POSSIBLE_DIRS[(current_index + 1) % 4] # The '% 4' is to ensure we stay within the 0-3 range of possible indices.
     elsif turndirection == "L"
-      @dir = @@possible_dirs[(current_index - 1) % 4]
+      @dir = POSSIBLE_DIRS[(0 - 1) % 4]
     end 
   end
 
   def advance # Moves 1 space in the direction we're currently facing.
-    distX = @@movestep[@dir.to_sym][0]
-    distY = @@movestep[@dir.to_sym][1]
+    distX = MOVE_STEPS[@dir.to_sym][0]
+    distY = MOVE_STEPS[@dir.to_sym][1]
 
     @x += distX
     @y += distY
@@ -60,13 +49,13 @@ class Rover
 
 
   def rover_mover # Using turn() and advance(), handles all our rover movement.
-    @path.each do |step|
+    @path.each_char do |step|
       step == "M" ? advance : turn(step) # If our current step is 'M', advance. Otherwise, turn.
       break if crashed
     end
   end
 
-  def display
+  def display 
     unless @crashed
       puts "Rover #{@@rover_count}: We've driven to #{@x}, #{@y}. Currently facing #{@dir}"
     else
